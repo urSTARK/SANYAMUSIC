@@ -5,6 +5,7 @@ import re
 import os
 from SHUKLAMUSIC import app
 
+#add gemini key in line 15 
 
 @app.on_message(filters.command("tg"))
 async def search_command(_, message):
@@ -12,7 +13,7 @@ async def search_command(_, message):
     async with aiohttp.ClientSession() as session:
         start = 1
         async with session.get(
-            f"https://content-customsearch.googleapis.com/customsearch/v1?cx=ec8db9e1f9e41e65e&q={message.text.split()[1]}&key=AIzaSyAa8yy0GdcGPHdtD083HiGGx_S0vMPScDM&start={start}",
+            f"https://content-customsearch.googleapis.com/customsearch/v1?cx=ec8db9e1f9e41e65e&q={message.text.split()[1]}&key=<gemini key>&start={start}",
             headers={"x-referer": "https://explorer.apis.google.com"},
         ) as r:
             response = await r.json()
