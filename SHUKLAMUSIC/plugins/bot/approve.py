@@ -305,7 +305,7 @@ async def approvestatus_cmd(_, m: Message):
         f"<b>📝 Commands:</b> /autoapprove on|off  •  /approve on|off</blockquote>"
     )
 
-@app.on_message(filters.command(["globalapprovestatus", "globalapprove"]) & filters.user([user.id for user in SUDOERS]) & ~filters.group)
+@app.on_message(filters.command(["globalapprovestatus", "globalapprove"]) & filters.user([user.id if hasattr(user, 'id') else user for user in SUDOERS]) & ~filters.group)
 async def global_approvestatus_cmd(_, m: Message):
     auto_map = {doc["chat_id"]: doc.get("enabled", True) async for doc in AUTOAPPROVE_DB.find({})}
     approve_map = {doc["chat_id"]: doc.get("enabled", True) async for doc in APPROVEMSG_DB.find({})}
