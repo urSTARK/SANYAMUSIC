@@ -1,79 +1,183 @@
-from telegram import Update, Bot
+import re
 import httpx
-
-from SHUKLAMUSIC import app
 from pyrogram import filters
+from pyrogram.types import Message
 
+# Assuming SHUKLAMUSIC is your Pyrogram Client object
+from SHUKLAMUSIC import app
 
+# --- Configuration (Move these to config.py if you have one) ---
+try:
+    from config import LOGGER_ID
+except ImportError:
+    LOGGER_ID = None
+    
+# From both files
 DOWNLOADING_STICKER_ID = (
     "CAACAgEAAx0CfD7LAgACO7xmZzb83lrLUVhxtmUaanKe0_ionAAC-gADUSkNORIJSVEUKRrhHgQ"
 )
-# The base API URL remains here
-API_URL = "https://insta-dl.hazex.workers.dev/?url="  
+# We will use the more robust API that provides metadata (from instadl.py)
+API_URL = "https://insta-dl.hazex.workers.dev" 
+# Fallback API (from instadl2.py)
+FALLBACK_API_URL = "https://karma-api2.vercel.app/instadl"
+
+# Regex to match Instagram URLs (from instadl.py)
+INSTA_URL_REGEX = re.compile(
+    r"^(https?://)?(www\.)?(instagram\.com|instagr\.am)/"
+)
 
 
-@app.on_message(filters.command(["ig", "insta"]))
-async def instadl_command_handler(client, message):
+async def _process_content(message: Message, url: str):
+    """
+    Helper function to process the Instagram URL and send the content (photo/video).
+    Merges logic from both files for robustness and photo/video detection.
+    """
+    # 1. URL Validation (from instadl.py)
+    if not re.match(INSTA_URL_REGEX, url):
+        return await message.reply_text(
+            "Tʜᴇ ᴘʀᴏᴠɪᴅᴇᴅ URL ɪs ɴᴏᴛ ᴀ ᴠᴀʟɪᴅ Iɴsᴛᴀɢʀᴀᴍ URL😅😅"
+        )
+
+    # 2. Status Update (from instadl.py)
+    processing_msg = await message.reply_sticker(DOWNLOADING_STICKER_ID)
+    await processing_msg.edit_text("ᴘʀᴏᴄᴇssɪɴɢ...")
+
+    # Choose the primary API for rich metadata
+    primary_api_url = f"{API_URL}/?url={url}"
+    
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(primary_api_url, timeout=30)
+            response.raise_for_status()
+            result = response.json()
+
+        # Check for API-level errors
+        if result.get("error"):
+            # If the primary API fails, try the fallback (simple) API
+            raise Exception(result.get("message", "Primary API failed, trying fallback..."))
+
+        data = result.get("result")
+        if not data:
+            raise Exception("No result data found in API response.")
+
+    except Exception as e:
+        # Fallback Logic (using the API from instadl2.py)
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.get(FALLBACK_API_URL, params={"url": url}, timeout=30)
+                response.raise_for_status()
+                data = response.json()
+            
+            # Simple content URL extraction (from instadl2.py)
+            if "content_url" in data:
+                content_url = data["content_url"]
+                caption = "Dᴏᴡɴʟᴏᴀᴅᴇᴅ ᴠɪᴀ Fᴀʟʟʙᴀᴄᴋ API."
+                
+                # Determine content type (from instadl2.py)
+                if "video" in content_url:
+                    await message.reply_video(content_url, caption=caption)
+                else:
+                    await message.reply_photo(content_url, caption=caption)
+                
+                await processing_msg.delete()
+                return # Exit successfully after fallback
+            else:
+                raise Exception("Fallback API failed to provide a content URL.")
+
+        except Exception as fallback_e:
+            # If both APIs fail
+            error_message = f"Eʀʀᴏʀ :\n{fallback_e}"
+            try:
+                await processing_msg.edit_text(error_message)
+            except Exception:
+                await message.reply_text(error_message)
+            if LOGGER_ID:
+                await app.send_message(LOGGER_ID, f"INSTADL FAILED for {url}:\n{fallback_e}")
+            return
+
+
+    # --- Primary API Success Processing (from instadl.py, adapted for photo/video) ---
+    if data.get("url"):
+        content_url = data["url"]
+        duration = data.get("duration", "N/A")
+        quality = data.get("quality", "N/A")
+        type_ext = data.get("extension", "N/A")
+        size = data.get("formattedSize", "N/A")
+        
+        # Determine if it's a photo or video based on the extension/type
+        is_video = True if type_ext.lower() in ["mp4", "webm", "mov"] else False
+
+        caption = f"Dᴜʀᴀᴛɪᴏɴ : {duration}\nQᴜᴀʟɪᴛʏ : {quality}\nTʏᴘᴇ : {type_ext}\nSɪᴢᴇ : {size}"
+
+        try:
+            if is_video:
+                await message.reply_video(content_url, caption=caption)
+            else:
+                await message.reply_photo(content_url, caption=caption)
+            
+            await processing_msg.delete()
+        except Exception as e:
+            error_message = f"Eʀʀᴏʀ ᴡʜɪʟᴇ sᴇɴᴅɪɴɢ ᴄᴏɴᴛᴇɴᴛ:\n{e}"
+            await processing_msg.edit_text(error_message)
+            if LOGGER_ID:
+                await app.send_message(LOGGER_ID, error_message)
+    else:
+        # Handle case where primary API call was successful but URL wasn't found
+        try:
+            return await processing_msg.edit_text(
+                "Fᴀɪʟᴇᴅ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ. Nᴏ ᴄᴏɴᴛᴇɴᴛ URL Fᴏᴜɴᴅ."
+            )
+        except Exception:
+            return await message.reply_text(
+                "Fᴀɪʟᴇᴅ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ. Nᴏ ᴄᴏɴᴛᴇɴᴛ URL Fᴏᴜɴᴅ."
+            )
+
+
+@app.on_message(filters.command(["ig", "insta", "instagram", "reel"]))
+async def download_instagram_command(client, message: Message):
+    """
+    Handles Instagram downloads via command.
+    """
     if len(message.command) < 2:
-        await message.reply_text("Usage: /insta [Instagram URL]")
+        await message.reply_text(
+            "Pʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴛʜᴇ Iɴsᴛᴀɢʀᴀᴍ URL ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ."
+        )
         return
 
-    link = message.command[1]
-    # Construct the full URL for the API call
-    # This variable holds the sensitive API endpoint + user input
-    full_api_url = API_URL + link
+    # Extract the URL from the message
+    # Use message.text.split for a cleaner extraction of the second element
+    url = message.text.split(None, 1)[1].strip()
     
-    downloading_sticker = None 
-
-    try:
-        downloading_sticker = await message.reply_sticker(DOWNLOADING_STICKER_ID)
-
-        # Make an asynchronous GET request to the API
-        async with httpx.AsyncClient() as client:
-            response = await client.get(full_api_url)
-            response.raise_for_status()
-            data = response.json()
-
-        # Check for successful response format
-        if not data.get("error") and "result" in data and "url" in data["result"]:
-            content_url = data["result"]["url"]
-            extension = data["result"].get("extension", "").lower()
-
-            # Determine content type 
-            if extension in ("mp4", "mov", "webm", "avi") or "video" in content_url:
-                await message.reply_video(content_url, caption=f"Downloaded from: `{link}`")
-            elif extension in ("jpg", "jpeg", "png", "webp") or "photo" in content_url or "image" in content_url:
-                await message.reply_photo(content_url, caption=f"Downloaded from: `{link}`")
-            else:
-                await message.reply_document(content_url, caption=f"Downloaded from: `{link}` (Sent as Document)")
-        else:
-            # Handle API-specific errors (e.g., "error": true)
-            error_message = data.get("message", "Unable to fetch content. Please check the Instagram URL or ensure the post is public.")
-            await message.reply_text(error_message)
-
-    except httpx.HTTPStatusError as e:
-        # Handle 4xx or 5xx errors from the API endpoint
-        # The specific API URL is NOT sent to the user, only a generic error
-        print(f"HTTP Status Error: {e}") # Log error for your own debugging
+    if not url:
         await message.reply_text(
-            "An error occurred while connecting to the download service (HTTP Status Error)."
+            "Pʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴛʜᴇ Iɴsᴛᴀɢʀᴀᴍ URL ᴀғᴛᴇʀ ᴛʜᴇ ᴄᴏᴍᴍᴀɴᴅ."
         )
-    except httpx.RequestError as e:
-        # Handle connection errors (e.g., DNS failure, timeout)
-        # The specific API URL is NOT sent to the user, only a generic error
-        print(f"Request Error: {e}") # Log error for your own debugging
-        await message.reply_text(
-            "A network error occurred while trying to reach the download service."
-        )
-    except Exception as e:
-        # Catch all other unexpected errors
-        # The exception 'e' is printed for your own logs, but the user gets a generic message
-        print(f"Unexpected Error: {e}")
-        await message.reply_text(
-            "An unexpected error occurred while processing the request. Please try again later."
-        )
+        return
 
-    finally:
-        if downloading_sticker:
-            # Safely delete the sticker even if an error occurred after it was sent
-            await downloading_sticker.delete()
+    await _process_content(message, url)
+
+
+# --- FIX FOR COMMAND BLOCKAGE ---
+@app.on_message(filters.text & (filters.private | filters.group) & ~filters.via_bot)
+async def download_instagram_no_command(client, message: Message):
+    """
+    Handles content downloads when a link is sent directly.
+    **FIX**: We only proceed if an Instagram URL is explicitly found.
+    """
+    if not message.text or message.text.startswith(("/", "!", "?", ".")):
+        return
+
+    # 1. Search for an Instagram URL in the entire text
+    match = re.search(INSTA_URL_REGEX, message.text)
+    
+    # 2. If no match is found, immediately return and let other handlers process the message
+    if not match:
+        return
+    
+    # 3. If a match is found, extract the URL and process it
+    # We use the whole text as the URL for simplicity, as _process_content will validate it.
+    # In a real-world scenario, you might want to extract only the first URL found: url = match.group(0)
+    url = message.text.strip()
+    
+    # This prevents the handler from running for every non-command message.
+    await _process_content(message, url)
