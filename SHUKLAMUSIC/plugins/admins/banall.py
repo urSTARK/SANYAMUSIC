@@ -4,7 +4,6 @@ import time
 
 from SHUKLAMUSIC import app
 from config import OWNER_ID
-from SHUKLAMUSIC.misc import SUDOERS
 from pyrogram import filters, enums
 from pyrogram.errors import FloodWait, RPCError
 from pyrogram.types import (
@@ -90,8 +89,8 @@ async def ban_all_confirm(_, query: CallbackQuery):
 
     async for member in app.get_chat_members(chat_id):
         user_id = member.user.id
-        # Skip SUDOERS, the bot itself, and other bots
-        if user_id in SUDOERS or user_id == me.id or member.user.is_bot:
+        # Skip the Owner, the bot itself, and other bots
+        if user_id == OWNER_ID or user_id == me.id or member.user.is_bot:
             continue
 
         try:
