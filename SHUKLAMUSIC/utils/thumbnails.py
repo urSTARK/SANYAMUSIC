@@ -44,7 +44,7 @@ def truncate(text):
     text2 = text2.strip()     
     return [text1,text2]
 
-def crop_center_circle(img, output_size, border, crop_scale=1.0):
+def crop_center_circle(img, output_size, border, crop_scale=0.7):
     half_the_width = img.size[0] / 2
     half_the_height = img.size[1] / 2
     larger_size = int(output_size * crop_scale)
