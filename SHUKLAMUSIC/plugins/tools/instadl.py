@@ -16,7 +16,7 @@ except ImportError:
 DOWNLOADING_STICKER_ID = (
     "CAACAgEAAx0CfD7LAgACO7xmZzb83lrLUVhxtmUaanKe0_ionAAC-gADUSkNORIJSVEUKRrhHgQ"
 )
-# We will use the more robust API that provides metadata (from instadl.py)
+# Primary API for rich metadata (from instadl.py)
 API_URL = "https://insta-dl.hazex.workers.dev" 
 # Fallback API (from instadl2.py)
 FALLBACK_API_URL = "https://karma-api2.vercel.app/instadl"
@@ -30,15 +30,15 @@ INSTA_URL_REGEX = re.compile(
 async def _process_content(message: Message, url: str):
     """
     Helper function to process the Instagram URL and send the content (photo/video).
-    Merges logic from both files for robustness and photo/video detection.
+    (This function remains the same, as it contains the core download logic)
     """
-    # 1. URL Validation (from instadl.py)
+    # 1. URL Validation
     if not re.match(INSTA_URL_REGEX, url):
         return await message.reply_text(
             "Tʜᴇ ᴘʀᴏᴠɪᴅᴇᴅ URL ɪs ɴᴏᴛ ᴀ ᴠᴀʟɪᴅ Iɴsᴛᴀɢʀᴀᴍ URL😅😅"
         )
 
-    # 2. Status Update (from instadl.py)
+    # 2. Status Update
     processing_msg = await message.reply_sticker(DOWNLOADING_STICKER_ID)
     await processing_msg.edit_text("ᴘʀᴏᴄᴇssɪɴɢ...")
 
@@ -80,7 +80,7 @@ async def _process_content(message: Message, url: str):
                     await message.reply_photo(content_url, caption=caption)
                 
                 await processing_msg.delete()
-                return # Exit successfully after fallback
+                return
             else:
                 raise Exception("Fallback API failed to provide a content URL.")
 
@@ -96,7 +96,7 @@ async def _process_content(message: Message, url: str):
             return
 
 
-    # --- Primary API Success Processing (from instadl.py, adapted for photo/video) ---
+    # --- Primary API Success Processing ---
     if data.get("url"):
         content_url = data["url"]
         duration = data.get("duration", "N/A")
@@ -136,7 +136,7 @@ async def _process_content(message: Message, url: str):
 @app.on_message(filters.command(["ig", "insta", "instagram", "reel"]))
 async def download_instagram_command(client, message: Message):
     """
-    Handles Instagram downloads via command.
+    Handles Instagram downloads exclusively via command.
     """
     if len(message.command) < 2:
         await message.reply_text(
@@ -145,7 +145,6 @@ async def download_instagram_command(client, message: Message):
         return
 
     # Extract the URL from the message
-    # Use message.text.split for a cleaner extraction of the second element
     url = message.text.split(None, 1)[1].strip()
     
     if not url:
@@ -156,28 +155,4 @@ async def download_instagram_command(client, message: Message):
 
     await _process_content(message, url)
 
-
-# --- FIX FOR COMMAND BLOCKAGE ---
-@app.on_message(filters.text & (filters.private | filters.group) & ~filters.via_bot)
-async def download_instagram_no_command(client, message: Message):
-    """
-    Handles content downloads when a link is sent directly.
-    **FIX**: We only proceed if an Instagram URL is explicitly found.
-    """
-    if not message.text or message.text.startswith(("/", "!", "?", ".")):
-        return
-
-    # 1. Search for an Instagram URL in the entire text
-    match = re.search(INSTA_URL_REGEX, message.text)
-    
-    # 2. If no match is found, immediately return and let other handlers process the message
-    if not match:
-        return
-    
-    # 3. If a match is found, extract the URL and process it
-    # We use the whole text as the URL for simplicity, as _process_content will validate it.
-    # In a real-world scenario, you might want to extract only the first URL found: url = match.group(0)
-    url = message.text.strip()
-    
-    # This prevents the handler from running for every non-command message.
-    await _process_content(message, url)
+# *** The 'download_instagram_no_command' function has been removed. ***
