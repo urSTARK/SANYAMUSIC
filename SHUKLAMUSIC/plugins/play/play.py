@@ -390,6 +390,7 @@ async def play_commnd(
             await mystic.delete()
             await message.reply_photo(
                 photo=img,
+                has_spoiler=True,
                 caption=cap,
                 reply_markup=InlineKeyboardMarkup(buttons),
             )
@@ -426,6 +427,7 @@ async def play_commnd(
                 await mystic.delete()
                 await message.reply_photo(
                     photo=img,
+                    has_spoiler=True,
                     caption=cap,
                     reply_markup=InlineKeyboardMarkup(buttons),
                 )
