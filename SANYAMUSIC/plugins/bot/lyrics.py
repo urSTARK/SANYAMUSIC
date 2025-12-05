@@ -12,8 +12,6 @@ from SANYAMUSIC.utils.decorators.language import language # <--- Imported decora
 
 from config import BANNED_USERS, lyrical
 
-# --- MODIFIED SECTION ---
-
 # Hardcode the Genius API key.
 api_key = "fcXGwudRZTE8zdMOYKNMoRGIWfBjca_4s5wF5keHeCTd68yURmceO4MGhAbyx-qp"
 
