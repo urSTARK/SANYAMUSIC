@@ -10,7 +10,7 @@ bing_image_downloader
 beautifulsoup4
 bs4
 cloudscraper
-lyricsgenius
+lyricsgenius==3.0.1
 deepai
 dnspython
 emojis
