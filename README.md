@@ -37,9 +37,27 @@
 
 </div>
 
----
+<details>
+  <summary><b>Features:</b></summary>
+  
+<p>
+
+🚀Features<p>
+💥Superfast⚡️ download and stream links.<br>
+💥No ads in playing songs.<br>
+💥Superfast interface.<br>
+💥Updates channel Support.<br>
+💥Mongodb database support for broadcasting.<br>
+💥User Freindly Interface.<br>
+💥Ping check.<br>
+💥Kickme and Video Chat Notifier are Available.<br>
+💥Real time CPU , RAM , Internet usage. <br>
+💥All unwanted code removed. <br>
+💥A lot more tired of writing check out by deploying it. 
+</details>
 
 ---
+
 
 ## 🎯 Commands
 
@@ -57,6 +75,9 @@
 | `/settings` | Bot settings |
 
 </div>
+
+## Channel Support
+Bot also Supported with Channels. Just add bot and assistant to the Channel as Admin. </details>
 
 ---
 
@@ -97,24 +118,6 @@ Either you could locally host or deploy on [Heroku](https://heroku.com)
 
 then goto the <a href="#mandatory-vars">variables tab</a> for more info on setting up environmental variables. </details>
 
-<details>
-  <summary><b>Features:</b></summary>
-  
-<p>
-
-🚀Features<p>
-💥Superfast⚡️ download and stream links.<br>
-💥No ads in playing songs.<br>
-💥Superfast interface.<br>
-💥Updates channel Support.<br>
-💥Mongodb database support for broadcasting.<br>
-💥User Freindly Interface.<br>
-💥Ping check.<br>
-💥Kickme and Video Chat Notifier are Available.<br>
-💥Real time CPU , RAM , Internet usage. <br>
-💥All unwanted code removed. <br>
-💥A lot more tired of writing check out by deploying it. 
-</details>
 <details>
   <summary><b>Host it on VPS Locally :</b></summary>
 
@@ -207,11 +210,11 @@ To get an instant result do /reboot in chat of logger .
   
 ![image](https://graph.org/file/801e199f756d83cb4d7f5-068bb84543385c04b6.jpg)
 </details>
----
 
 ---
+
 <details>
-<summary><b>🤔 𝐂𝐨𝐦𝐦𝐨𝐧 𝐈𝐬𝐬𝐮𝐞𝐬 (𝐂𝐥𝐢𝐜𝐤 𝐭𝐨 𝐄𝐱𝐩𝐚𝐧𝐝)</b></summary>
+<summary><b>Common Issues</b></summary>
 
 <br>
 
@@ -224,11 +227,6 @@ To get an instant result do /reboot in chat of logger .
 | Slow response | Check internet connection and server resources |
 
 </details>
-
----
-
-### Channel Support
-Bot also Supported with Channels. Just add bot and assistant to the Channel as Admin. </details>
 
 ---
 
