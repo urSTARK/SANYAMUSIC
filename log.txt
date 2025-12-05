@@ -48,3 +48,26 @@
 client_session: <aiohttp.client.ClientSession object at 0x7e235d7d7bd0>
 [05-Dec-25 07:58:58 - ERROR] - asyncio - Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x7e2365f10dd0>
+[05-Dec-25 08:00:17 - INFO] - SANYAMUSIC.core.mongo - Connecting to your Mongo Database...
+[05-Dec-25 08:00:17 - INFO] - SANYAMUSIC.core.mongo - Connected to your Mongo Database.
+[05-Dec-25 08:00:17 - INFO] - SANYAMUSIC.core.dir - Directories Updated.
+[05-Dec-25 08:00:17 - INFO] - SANYAMUSIC.core.git - Git Client Found [VPS DEPLOYER]
+[05-Dec-25 08:00:17 - INFO] - SANYAMUSIC.misc - 𝗗𝗔𝗧𝗔𝗕𝗔𝗦𝗘 𝗟𝗢𝗔𝗗 𝗕𝗔𝗕𝗬🍫........
+[05-Dec-25 08:00:17 - INFO] - SANYAMUSIC.core.bot - Starting Bot...
+[05-Dec-25 08:00:30 - INFO] - SANYAMUSIC.misc - 𝗦𝗨𝗗𝗢 𝗨𝗦𝗘𝗥 𝗗𝗢𝗡𝗘✨🎋.
+[05-Dec-25 08:00:39 - INFO] - SANYAMUSIC.core.bot - Music Bot Started as Lisa Music Bot 
+[05-Dec-25 08:00:40 - INFO] - apscheduler.scheduler - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[05-Dec-25 08:00:40 - INFO] - apscheduler.scheduler - Added job "start_nightmode" to job store "default"
+[05-Dec-25 08:00:40 - INFO] - apscheduler.scheduler - Scheduler started
+[05-Dec-25 08:00:40 - INFO] - apscheduler.scheduler - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[05-Dec-25 08:00:40 - INFO] - apscheduler.scheduler - Added job "close_nightmode" to job store "default"
+[05-Dec-25 08:00:40 - INFO] - apscheduler.scheduler - Scheduler started
+[05-Dec-25 08:00:41 - INFO] - pikepdf._core - pikepdf C++ to Python logger bridge initialized
+[05-Dec-25 08:00:42 - INFO] - SANYAMUSIC.plugins - 𝐀𝐥𝐥 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬 𝐋𝐨𝐚𝐝𝐞𝐝 𝐁𝐚𝐛𝐲🥳...
+[05-Dec-25 08:00:42 - INFO] - SANYAMUSIC.core.userbot - Starting Assistants...
+[05-Dec-25 08:00:49 - INFO] - SANYAMUSIC.core.userbot - Assistant Started as <a href=tg://user?id=8482984232>.</a>
+[05-Dec-25 08:00:49 - INFO] - SANYAMUSIC.core.call - Starting PyTgCalls Client...
+
+[05-Dec-25 08:01:23 - INFO] - SANYAMUSIC - ╔═════ஜ۩۞۩ஜ════╗
+  ☠︎︎𝗠𝗔𝗗𝗘 𝗕𝗬 𝗠𝗥 𝗦𝗧𝗔𝗥𝗞
+╚═════ஜ۩۞۩ஜ════╝
