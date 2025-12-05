@@ -206,9 +206,10 @@ STRING_SESSION=
 To get an instant result do /reboot in chat of logger .
   
 ![image](https://graph.org/file/801e199f756d83cb4d7f5-068bb84543385c04b6.jpg)
-
+</details>
 ---
 
+---
 <details>
 <summary><b>🤔 𝐂𝐨𝐦𝐦𝐨𝐧 𝐈𝐬𝐬𝐮𝐞𝐬 (𝐂𝐥𝐢𝐜𝐤 𝐭𝐨 𝐄𝐱𝐩𝐚𝐧𝐝)</b></summary>
 
