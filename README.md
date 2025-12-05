@@ -32,8 +32,29 @@
 | ʜɪɢʜ ǫᴜᴀʟɪᴛʏ | ᴍᴜʟᴛɪᴘʟᴇ sᴏᴜʀᴄᴇ | ᴘʟᴀʏʟɪsᴛs | ᴍᴜʟᴛɪ-ʟᴀɴɢᴜᴀɢᴇ |
 |:---:|:---:|:---:|:---:|
 | Crystal clear audio | YouTube • Spotify | Create & Manage | Multiple Languages |
-| ** ᴇʟᴇɢᴀɴᴛ ᴜɪ** | ** ᴀᴅᴍɪɴ ᴄᴏɴᴛʀᴏʟs** | ** ʟɪɢʜᴛɪɴɪɴɢ ғᴀsᴛ** | ** sᴛᴀʙʟᴇ** |
+| **ᴇʟᴇɢᴀɴᴛ ᴜɪ** | **ᴀᴅᴍɪɴ ᴄᴏɴᴛʀᴏʟs** | **ʟɪɢʜᴛɪɴɪɴɢ ғᴀsᴛ** | **sᴛᴀʙʟᴇ** |
 | Modern Interface | Powerful Commands | 1-3s Response | 99.9% Uptime |
+
+</div>
+
+---
+
+---
+
+## 🎯 Commands
+
+<div align="center">
+
+| Command | Description |
+|:---:|:---:|
+| `/play [song]` | Play music |
+| `/pause` | Pause playback |
+| `/resume` | Resume playback |
+| `/skip` | Skip track |
+| `/stop` | Stop playback |
+| `/playlist` | View playlist |
+| `/song [name]` | Download audio |
+| `/settings` | Bot settings |
 
 </div>
 
@@ -174,12 +195,72 @@ To get an instant result do /reboot in chat of logger .
   
 ![image](https://graph.org/file/801e199f756d83cb4d7f5-068bb84543385c04b6.jpg)
 
+---
 
 ### Channel Support
 Bot also Supported with Channels. Just add bot and assistant to the Channel as Admin. </details>
 
+---
+
+## 📊 Stats
+
+<div align="center">
+
+![Repo Size](https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
+![Issues](https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
+![License](https://img.shields.io/github/license/NoxxOP/ShrutiMusic?color=black&logo=github&logoColor=black&style=for-the-badge)
+![Last Commit](https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?color=blue&logo=github&logoColor=green&style=for-the-badge)
+
+</div>
+
+---
+
+## 📝 License 
+
+<div align="center">
+
+[![MIT License](https://img.shields.io/badge/License-MIT-blueviolet?style=for-the-badge)](LICENSE)
+
+</div>
+
+---
+
+## 💬 Support
+
+<div align="center">
+
+| **Support Channel** | **Owner id** |
+|:---:|:---:|
+| [![Channel](https://img.shields.io/badge/Join%20Channel-black?style=for-the-badge&logo=telegram)](https://t.me/SanyaxSupport) | [![Owner](https://img.shields.io/badge/Join%20Group-black?style=for-the-badge&logo=telegram)](https://t.me/cutzj) |
+| Latest Updates | 24/7 Help & Support |
+
+---
+
+<img src="https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F%20by-Stark-red?style=for-the-badge&logo=heart" alt="Made with love">
+
+---
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=00D9FF&center=true&vCenter=true&width=600&lines=Fast+%F0%9F%9A%80+Reliable+%F0%9F%94%92+High+Quality+%F0%9F%8E%B5;10x+Faster+with+API+%E2%9A%A1;Join+Our+Community+%F0%9F%92%AC" alt="Typing SVG">
+</p>
+
+</div>
+
+---
+
 ### Credits : 
 
+<div align="center">
+
+**Main Developer**
+
+[![urstark](https://img.shields.io/badge/urstark-black?style=for-the-badge&logo=github)](https://github.com/urstark)
+
+**Special Thanks to All Contributors**
+
+</div>
+
+---
 - [Stark](https://github.com/urSTARK)
 - [Telegram](https://t.me/CUTZJ)
 - Everyone In This Journey !
